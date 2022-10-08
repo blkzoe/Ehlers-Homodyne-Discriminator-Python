@@ -91,10 +91,10 @@ def discriminator(dataframe,cycpart=0.5):
 
     #Add final filter to Period here to keep values within processing range
     df['smoothperiod'] = df['smoothperiod'] * cycpart
-    df['smoothperiod'] = df['smoothperiod'].apply(np.ceil)
     df['domcycle'] = np.where(df['smoothperiod'].gt(34),34, np.where(df['smoothperiod'].lt(1),1,df['smoothperiod']))
     return df['domcycle']
 
 
 
 #Check for key errors when getting price data
+
