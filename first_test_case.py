@@ -95,3 +95,4 @@ def discriminator(dataframe,cycpart=0.5):
 
 
 #Check for key errors when getting price data
+#Not sure if I should use shift() or iloc[]
