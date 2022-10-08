@@ -85,7 +85,7 @@ def discriminator(dataframe,cycpart=0.5):
     #Add final filter to Period here to keep values within processing range
     #Find equivalent of gt() and lt() in numpy
     df['smoothperiod'] = df['smoothperiod'] * cycpart
-    df['smoothperiod'] = df['smoothperiod'].apply(np.ceil)
+    #df['smoothperiod'] = df['smoothperiod'].apply(np.ceil)
     #df['domcycle'] = 34 if np.ceil(cycpart * df['smoothperiod']) > 34 else 1 if np.ceil(cycpart * df['smoothperiod']) < 1 else np.ceil(cycpart * df['smoothperiod'])
     df['domcycle'] = np.where(df['smoothperiod'].gt(34),34, np.where(df['smoothperiod'].lt(1),1,df['smoothperiod']))
 
@@ -96,7 +96,7 @@ def discriminator(dataframe,cycpart=0.5):
 
 #Check for key errors when getting price data
 #Download GBPUSD data 'JPYAUD=X'
-data = yf.download(tickers = 'GBPUSD=X'  ,period ='1d', interval = '15m')
+data = yf.download(tickers ='GBPUSD=X'  ,period ='2d', interval = '15m')
 
 out = discriminator(data,0.1)
 print(out)
