@@ -18,19 +18,18 @@ def complex_number_ceil(complex_num):
     complex_tostring = str(complex_num)
 
     #find the decimal point
-    if '.' in complex_tostring:
-        index = complex_tostring.index('.')
 
-        #get the number with 1 decimal place
-        complex_tostring = complex_tostring[:index+2]
+    index = complex_tostring.index('.')
 
-        #convert to usable float
-        complex_tofloat = float(complex_tostring)
+    #get the number with 1 decimal place
+    complex_tostring = complex_tostring[:index+2]
 
-        #get the ceil of the float
-        complex_ceil = ceil(complex_tofloat)
-    else:
-        complex_ceil = 1
+    #convert to usable float
+    complex_tofloat = float(complex_tostring)
+
+    #get the ceil of the float
+    complex_ceil = ceil(complex_tofloat)
+
 
     #return the ceil value
     return complex_ceil
@@ -69,7 +68,6 @@ def series_valuewhen(condition,series,occurence):
 def discriminator(dataframe,cycpart=0.5):
     #duplicate dataframe for manipulation
     df = dataframe.copy()
-
     #Declare initial state of variables
     pi = 2 * asin(1)
     df['smooth'] = 0
@@ -130,7 +128,10 @@ def discriminator(dataframe,cycpart=0.5):
     #Add final filter to Period here to keep values within processing range
     #Find equivalent of gt() and lt() in numpy
     df['smoothperiod'] = df['smoothperiod'] * cycpart
-    df['smoothperiod'] = complex_number_ceil(df['smoothperiod'].iloc[0])
+    #The value gotten is complex128 making it impossible to apply the np.ceil function
+    #I am forcing the ceil method on its head awon werey
+    df['smoothperiod'] = df['smoothperiod'].astype(float)
+    df['smoothperiod'] = df['smoothperiod'].apply(np.ceil)
     #df['domcycle'] = 34 if np.ceil(cycpart * df['smoothperiod']) > 34 else 1 if np.ceil(cycpart * df['smoothperiod']) < 1 else np.ceil(cycpart * df['smoothperiod'])
     df['domcycle'] = np.where(df['smoothperiod'].gt(34),34, np.where(df['smoothperiod'].lt(1),1,df['smoothperiod']))
   
@@ -146,7 +147,7 @@ def discriminator(dataframe,cycpart=0.5):
 #Set a martingale size
 
 #Download GBPUSD data 'GBPUSD=X'
-price_data = yf.download(tickers ='GBPUSD=X'  ,period ='1d', interval = '1m')
+price_data = yf.download(tickers ='GBPUSD=X'  ,period ='5d', interval = '15m')
 
 # Apply ceil the discriminator values so I have stuff like 1.00 and then 2.00 not 1.4 and then 1.5... That is bad
 # If there is a ceil 1.4 == 1.0 and 1.5 = 2.0 and there is peace
