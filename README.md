@@ -33,4 +33,4 @@ that the carrier wave holds much more understandable.
   
  DO NOT TAKE THIS ALGO AS IS....TEST IT... MODIFY IT... AND ONLY USE YOUR LUCH MONEY TO TRADE.
  
- The usable file is the 'second_test_case.py' the others just show my process to getting there.
+ The usable file is the 'third_test_case.py' the others just show my process to getting there.
